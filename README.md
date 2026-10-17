@@ -1,16 +1,10 @@
 # Zebrash
 
-> ## ⚠️ Warning
-> As I am leaving Ingrid, I am stepping back from being the maintainer of this project.
-> This repository will remain public, but I will no longer be reviewing pull requests,
-> responding to issues, or releasing updates.
-
-> It is possible that this project will get a new maintainer from Ingrid in the future.
-> In the meantime, you are welcome to open PRs or issues, though please note
-> that they are unlikely to be reviewed. You are also free to fork this project, as it is
-> released under the MIT license.
-
-> Sincerely, Fedir Kryvytskyi
+> ## ℹ️ About this fork
+> This is a fork of [ingridhq/zebrash](https://github.com/ingridhq/zebrash).
+> The original library is no longer maintained, so I forked it to fix some bugs that we ran into
+> when rendering real-world carrier labels. I will mainly maintain the features that I need 
+> myself, but pull requests are welcome.
 
 Library for rendering ZPL (Zebra Programming Language) files as raster images
 
@@ -24,9 +18,9 @@ Library for rendering ZPL (Zebra Programming Language) files as raster images
 This library emulates subset of ZPL engine and allows you to view most of the ZPL labels that are used by carriers such as Fedex, UPS or DHL as PNGs without the need to possess physical Zebra-compatible printer.
 Think of https://labelary.com/viewer.html except it is completely free for commercial use, has no API limits and can easily be self-hosted or plugged into existing Go application so you don't need to send labels with real customers information to some 3rd-party servers
 
-Example of the output (more examples can be found inside `testdata` folder):
+Example of the output:
 
-![UPS label](testdata/ups_grayscale.png)
+![UPS label](testdata/zebrash-default/ups_grayscale.png)
 
 
 ## Usage:
@@ -54,7 +48,7 @@ Example of the output (more examples can be found inside `testdata` folder):
 		LabelHeightMm:        203.2,
 		Dpmm:                 8,
 		EnableInvertedLabels: true,
-		GrayscaleOutput:      true
+		GrayscaleOutput:      true,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -66,3 +60,13 @@ Example of the output (more examples can be found inside `testdata` folder):
 	}
 
 ```
+
+### Command line
+
+Render a ZPL file as a PNG next to it (`label.zpl` -> `label.png`):
+
+```sh
+go run ./cmd/zpl2png testdata/label.zpl
+```
+
+Options: `-w` label width in mm (default `101.6`), `-h` label height in mm (default `203.2`), `-dpmm` dots per mm (default `8`, use `12` for 300 dpi).
